@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrokerBlocks · Customer Onboarding Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark1:   #071633;
+    --dark2:   #1A3C80;
+    --dark3:   #1B224B;
+    --pink:    #C041A9;
+    --arrow:   #7099EA;
+    --light1:  #D5E1F7;
+    --light2:  #EEF3FB;
+    --mid:     #B8CCE8;
+    --gray:    #6B7A99;
+    --white:   #ffffff;
+    --text:    #071633;
+
+    --grad-dark:  linear-gradient(135deg, #1B224B 0%, #0e1c3d 100%);
+    --grad-light: linear-gradient(135deg, #EEF3FB 0%, #D5E1F7 100%);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #f0f4fb;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  /* ── Page wrapper ── */
+  .page {
+    max-width: 980px;
+    margin: 32px auto;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 32px rgba(7,22,51,.14);
+  }
+
+  /* ══════════════════════════════════
+     COVER
+  ══════════════════════════════════ */
+  .cover {
+    background: var(--grad-dark);
+    padding: 44px 44px 0;
+  }
+  .cover-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    color: var(--pink);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .cover-title {
+    font-size: 44px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.08;
+    margin-bottom: 8px;
+  }
+  .cover-title span { color: var(--pink); }
+  .cover-subtitle {
+    font-size: 13px;
+    color: #a8bfdc;
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .badge {
+    background: rgba(192,65,169,.15);
+    border: 1px solid rgba(192,65,169,.4);
+    color: var(--pink);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 20px;
+  }
+  .badge.blue {
+    background: rgba(26,60,128,.4);
+    border-color: rgba(112,153,234,.3);
+    color: #a8bfdc;
+  }
+
+  /* Stats bar */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: rgba(255,255,255,.05);
+    border-top: 1px solid rgba(255,255,255,.09);
+  }
+  .stat {
+    text-align: center;
+    padding: 18px 8px;
+    border-right: 1px solid rgba(255,255,255,.07);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-val {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--pink);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: #6b80a0;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+
+  /* ══════════════════════════════════
+     TOC
+  ══════════════════════════════════ */
+  .toc {
+    background: var(--grad-light);
+    padding: 24px 44px;
+    border-bottom: 2px solid var(--mid);
+  }
+  .toc-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .13em;
+    color: var(--gray);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 11px;
+    background: var(--white);
+    border: 1px solid var(--mid);
+    border-radius: 7px;
+  }
+  .toc-num  { font-size: 12px; font-weight: 800; color: var(--pink); min-width: 22px; }
+  .toc-label{ font-size: 11px; font-weight: 700; color: var(--dark2); }
+  .toc-desc { font-size: 10px; color: var(--gray); margin-top: 1px; font-weight: 400; }
+
+  /* ══════════════════════════════════
+     CONTENT
+  ══════════════════════════════════ */
+  .content { padding: 36px 44px; }
+
+  /* Section header */
+  .section-hdr {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--grad-dark);
+    color: var(--white);
+    padding: 11px 18px;
+    border-radius: 7px;
+    margin-bottom: 14px;
+    margin-top: 34px;
+  }
+  .section-hdr:first-child { margin-top: 0; }
+  .section-hdr .s-num   { font-size: 20px; font-weight: 800; color: var(--pink); min-width: 30px; }
+  .section-hdr .s-title { font-size: 13px; font-weight: 700; }
+  .section-hdr .s-sub   { font-size: 10px; color: #a8bfdc; margin-top: 2px; font-weight: 400; }
+
+  /* Cards */
+  .card {
+    background: var(--grad-light);
+    border: 1px solid var(--mid);
+    border-radius: 7px;
+    padding: 14px 17px;
+  }
+  .card + .card { margin-top: 8px; }
+
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+  .col-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .09em;
+    color: var(--arrow);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Script block */
+  .script {
+    background: rgba(112,153,234,.08);
+    border-left: 3px solid var(--arrow);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-style: italic;
+    color: var(--dark2);
+    font-size: 12px;
+    margin: 8px 0;
+    line-height: 1.65;
+  }
+
+  /* Note / callout */
+  .note    { font-size: 11px; color: var(--gray); font-style: italic; margin-top: 4px; font-weight: 400; }
+  .callout { font-size: 12px; color: var(--pink); font-weight: 700; margin-top: 6px; }
+
+  /* Bullets */
+  ul.bb { list-style: none; padding: 0; margin: 0; }
+  ul.bb li {
+    padding: 2px 0 2px 18px;
+    position: relative;
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 400;
+  }
+  ul.bb li::before { content: "→"; position: absolute; left: 0; color: var(--arrow); font-size: 11px; }
+  ul.bb.check li::before { content: "✓"; color: var(--dark2); font-weight: 700; }
+  ul.bb.dot   li::before { content: "•"; color: var(--dark2); }
+
+  /* ══════════════════════════════════
+     SECTION 01 — CHECKLIST FORM
+  ══════════════════════════════════ */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--mid);
+    border: 1px solid var(--mid);
+    border-radius: 7px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .cl-cell { background: var(--grad-light); padding: 13px 15px; }
+  .cl-cell.span2 { grid-column: span 2; }
+  .cl-cell.span3 { grid-column: span 3; background: #f5f0fd; }
+
+  /* Radio / checkbox styling */
+  .opt-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .opt-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .opt-group input[type="radio"],
+  .opt-group input[type="checkbox"] {
+    accent-color: var(--pink);
+    width: 13px; height: 13px;
+    cursor: pointer;
+  }
+  textarea.cl-text {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text);
+    background: rgba(255,255,255,.7);
+    border: 1px solid var(--mid);
+    border-radius: 5px;
+    padding: 6px 8px;
+    resize: vertical;
+    margin-top: 6px;
+    min-height: 52px;
+  }
+  input.cl-input {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text);
+    background: rgba(255,255,255,.7);
+    border: 1px solid var(--mid);
+    border-radius: 5px;
+    padding: 6px 8px;
+    margin-top: 6px;
+  }
+
+  /* Form action buttons */
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 4px;
+  }
+  .btn-reset {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--mid);
+    background: var(--white);
+    color: var(--gray);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-reset:hover { background: var(--light1); border-color: var(--arrow); color: var(--dark2); }
+  .btn-submit {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(135deg, #C041A9 0%, #8e2e7b 100%);
+    color: var(--white);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity .15s;
+  }
+  .btn-submit:hover { opacity: .88; }
+
+  /* ══════════════════════════════════
+     OPENER STEPS
+  ══════════════════════════════════ */
+  .opener-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .opener-step { background: var(--grad-light); border: 1px solid var(--mid); border-radius: 7px; padding: 14px; }
+  .opener-step.full { grid-column: span 2; }
+  .step-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--pink); color: var(--white);
+    font-size: 11px; font-weight: 800;
+    width: 22px; height: 22px;
+    border-radius: 50%; margin-right: 6px;
+  }
+  .step-title { font-weight: 700; font-size: 12px; }
+
+  /* ══════════════════════════════════
+     SECTION 04 — FORM LINKS
+  ══════════════════════════════════ */
+  .form-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-link-card {
+    background: var(--grad-light);
+    border: 1.5px solid var(--mid);
+    border-radius: 8px;
+    padding: 20px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form-link-card:hover { border-color: var(--arrow); }
+  .form-icon {
+    width: 38px; height: 38px;
+    background: var(--grad-dark);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .form-link-title { font-size: 14px; font-weight: 700; color: var(--dark1); }
+  .form-link-desc  { font-size: 11px; color: var(--gray); font-weight: 400; }
+  .form-link-btn {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 8px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--dark2) 0%, var(--dark3) 100%);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: opacity .15s;
+    align-self: flex-start;
+  }
+  .form-link-btn:hover { opacity: .85; }
+  .form-link-btn.pink {
+    background: linear-gradient(135deg, #C041A9 0%, #8e2e7b 100%);
+  }
+
+  /* ══════════════════════════════════
+     PLATFORM WALKTHROUGH
+  ══════════════════════════════════ */
+  .wt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+  .wt-card {
+    background: var(--grad-light);
+    border: 1px solid var(--mid);
+    border-radius: 7px;
+    padding: 13px 15px;
+  }
+  .wt-num   { font-size: 20px; font-weight: 800; color: var(--pink); line-height: 1; }
+  .wt-title { font-weight: 700; font-size: 12px; color: var(--dark2); margin: 4px 0 2px; }
+  .wt-slide { font-size: 10px; color: var(--gray); margin-bottom: 8px; font-weight: 400; }
+
+  /* ══════════════════════════════════
+     SECRETS
+  ══════════════════════════════════ */
+  .secret-row {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 17px;
+    background: var(--grad-light);
+    border: 1px solid var(--mid);
+    border-radius: 7px;
+    margin-bottom: 6px;
+  }
+  .secret-num { font-size: 24px; font-weight: 800; color: var(--pink); min-width: 28px; line-height: 1; margin-top: 2px; }
+
+  /* ══════════════════════════════════
+     ACTIVATION FLOW
+  ══════════════════════════════════ */
+  .week-hdr { font-size: 13px; font-weight: 700; padding: 9px 15px; border-radius: 7px; margin-bottom: 6px; }
+  .week-hdr.w1  { background: rgba(192,65,169,.08); color: var(--pink); border: 1px solid rgba(192,65,169,.25); }
+  .week-hdr.w24 { background: rgba(112,153,234,.1); color: var(--dark2); border: 1px solid rgba(112,153,234,.3); }
+
+  .touch-table { border: 1px solid var(--mid); border-radius: 7px; overflow: hidden; margin-bottom: 14px; }
+  .touch-row {
+    display: grid; grid-template-columns: 58px 58px 1fr;
+    border-bottom: 1px solid var(--mid);
+  }
+  .touch-row:last-child { border-bottom: none; }
+  .touch-row:nth-child(even) { background: var(--light2); }
+
+  .touch-day  { padding: 11px 8px; font-weight: 700; font-size: 11px; color: var(--dark1); text-align: center; border-right: 1px solid var(--mid); }
+  .touch-type { padding: 11px 6px; font-weight: 700; font-size: 10px; text-align: center; border-right: 1px solid var(--mid); text-transform: uppercase; letter-spacing: .05em; }
+  .type-email { color: var(--dark2); }
+  .type-text  { color: var(--pink); }
+  .type-call  { color: var(--arrow); }
+  .touch-body  { padding: 11px 15px; }
+  .touch-title { font-weight: 700; font-size: 12px; margin-bottom: 3px; }
+  .touch-desc  { font-size: 11px; color: var(--gray); font-weight: 400; }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  .footer {
+    background: var(--grad-dark);
+    text-align: center;
+    padding: 12px;
+    font-size: 10px;
+    color: #5a7099;
+    letter-spacing: .05em;
+  }
+
+  hr.divider { border: none; border-top: 1px solid var(--mid); margin: 30px 0; }
+  b, strong { font-weight: 700; }
+
+  .rule-box {
+    background: rgba(112,153,234,.08);
+    border: 1px solid rgba(112,153,234,.3);
+    border-radius: 6px;
+    padding: 9px 13px;
+    font-size: 11px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .rule-box b { color: var(--dark2); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════ COVER ══════ -->
+  <div class="cover">
+    <div class="cover-tag">BrokerBlocks · Project Red Thread</div>
+    <div class="cover-title">Customer<br>Onboarding<br><span>Playbook</span></div>
+    <div class="cover-subtitle">From First Call to Activation &nbsp;·&nbsp; Leadership + Agent Rollout &nbsp;·&nbsp; 30-Day Success Plan</div>
+    <div class="cover-meta">
+      <span class="badge">Owners: Charles + Adelon</span>
+      <span class="badge blue">Window: 30-Min Call + 14-Day Ramp + 30-Day Activation</span>
+      <span class="badge">Status: Sprint Active</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">5</div><div class="stat-lbl">Steps</div></div>
+      <div class="stat"><div class="stat-val">11</div><div class="stat-lbl">Slides</div></div>
+      <div class="stat"><div class="stat-val">30</div><div class="stat-lbl">Minutes</div></div>
+      <div class="stat"><div class="stat-val">10</div><div class="stat-lbl">Touchpoints</div></div>
+      <div class="stat"><div class="stat-val">30</div><div class="stat-lbl">Days</div></div>
+    </div>
+  </div>
+
+<!-- ══════ MAIN CONTENT ══════ -->
+  <div class="content">
+
+    <!-- ── 00 PRE-WORK ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">00</span></div>
+      <div><div class="s-title">PRE-WORK (BEFORE CALL)</div><div class="s-sub">Self-Serve Setup · Leader Completes on Their Own</div></div>
+    </div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div>
+          <div style="font-weight:700;color:var(--pink);margin-bottom:3px;">○ Account Created</div>
+          <div class="note">Initial access set up in BrokerBlocks</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--pink);margin-bottom:3px;">○ CRM Connected</div>
+          <div class="note">FUB API keys added during onboarding</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--pink);margin-bottom:3px;">○ Leader Invited</div>
+          <div class="note">Email sent with activation link</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── 01 PRE-CALL CEREMONY CHECKLIST ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">01</span></div>
+      <div><div class="s-title">PRE-CALL CEREMONY CHECKLIST</div><div class="s-sub">Google Form · Fill Before Every Onboarding · Feeds Big Brother</div></div>
+    </div>
+    <div class="rule-box"><b>Rule:</b> This form is filled BEFORE the onboarding call — not during, not after. Pre-fill everything you already have from Ethan's dispo. You're confirming, not re-asking. All submissions feed Big Brother for vintage scoring.</div>
+
+    <form id="precallForm">
+      <div class="checklist-grid">
+        <!-- Row 1 -->
+        <div class="cl-cell">
+          <div class="col-label">Profile Type</div>
+          <div class="opt-group">
+            <label><input type="radio" name="profileType" value="ideal-partner"> Ideal Partner Profile</label>
+            <label><input type="radio" name="profileType" value="ideal-client"> Ideal Client Profile</label>
+            <label><input type="radio" name="profileType" value="other"> Other</label>
+          </div>
+        </div>
+        <div class="cl-cell">
+          <div class="col-label">Lead Source</div>
+          <div class="opt-group">
+            <label><input type="radio" name="leadSource" value="ppc"> PPC</label>
+            <label><input type="radio" name="leadSource" value="soi"> SOI</label>
+            <label><input type="radio" name="leadSource" value="referral"> Referral</label>
+            <label><input type="radio" name="leadSource" value="outbound"> Outbound</label>
+          </div>
+          <div class="note" style="margin-top:6px;">As reported by Ethan on dispo form</div>
+        </div>
+        <div class="cl-cell">
+          <div class="col-label">Known Objections from Sales Call</div>
+          <textarea class="cl-text" name="objections" placeholder='e.g. "Worried agents won&apos;t adopt..."'></textarea>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="cl-cell">
+          <div class="col-label">CRM Type</div>
+          <div class="opt-group">
+            <label><input type="radio" name="crmType" value="fub"> FUB</label>
+            <label><input type="radio" name="crmType" value="boldtrail"> BoldTrail</label>
+          </div>
+          <div style="margin-top:10px;" class="col-label">API Key</div>
+          <div class="opt-group">
+            <label><input type="radio" name="apiKey" value="collected"> Collected</label>
+            <label><input type="radio" name="apiKey" value="not-collected"> Not Collected</label>
+          </div>
+          <div class="note" style="margin-top:6px;">Must be collected before first touchpoint fires</div>
+        </div>
+        <div class="cl-cell span2">
+          <div class="col-label">Email Provider</div>
+          <div class="opt-group">
+            <label><input type="radio" name="emailProvider" value="google"> Google</label>
+            <label><input type="radio" name="emailProvider" value="outlook"> Outlook</label>
+            <label><input type="radio" name="emailProvider" value="other"> Other</label>
+          </div>
+          <div class="note" style="margin-top:6px;">Confirm before call — pre-fills from dispo</div>
+        </div>
+
+        <!-- Row 3 — Group Profile -->
+        <div class="cl-cell span3">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+            <div>
+              <div class="col-label">Lead Volume</div>
+              <input class="cl-input" type="text" name="leadVolume" placeholder="e.g. 120 leads/mo">
+            </div>
+            <div>
+              <div class="col-label">Team Size</div>
+              <input class="cl-input" type="text" name="teamSize" placeholder="e.g. 12 agents">
+            </div>
+            <div>
+              <div class="col-label">Other Tech Stack</div>
+              <input class="cl-input" type="text" name="techStack" placeholder="e.g. Zapier, Slack...">
+            </div>
+          </div>
+        </div>
+      </div><!-- /checklist-grid -->
+
+      <div class="form-actions">
+        <button type="button" class="btn-reset" onclick="document.getElementById('precallForm').reset()">↺ Reset</button>
+        <a class="btn-submit" href="#your-google-form-link" target="_blank">Submit to Google Form →</a>
+      </div>
+    </form>
+
+    <hr class="divider">
+
+    <!-- ── 02 OPENER SCRIPT ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">02</span></div>
+      <div><div class="s-title">ONBOARDING OPENER SCRIPT SOP</div><div class="s-sub">Written · Not Vibed · Consultative Tone · Lock This Before Next Call</div></div>
+    </div>
+    <div class="opener-grid">
+      <div class="opener-step">
+        <div><span class="step-badge">1</span><span class="step-title">Cherish the Win</span></div>
+        <div class="script">"Hey folks, great news — Ethan sent us over his notes. Seems like he feels you qualify as ideal partner profiles. You identify as ambassadors. Great to know. We've worked with 150 groups to date and we've got a really good plan based on how you guys are set up."</div>
+        <div class="note">AD's exact framing. Reference Ethan by name — signals a tight handoff, not a cold restart.</div>
+      </div>
+      <div class="opener-step">
+        <div><span class="step-badge">2</span><span class="step-title">Frame the Housekeeping</span></div>
+        <div class="script">"Just to make sure we don't put you on the wrong activation success plan — let's go through a couple of housekeeping items. Here's everything I already have an understanding of."</div>
+        <div class="note">AD's exact words. The plan is the reason for the pre-fill — not a deliverable you announce at the end.</div>
+      </div>
+      <div class="opener-step">
+        <div><span class="step-badge">3</span><span class="step-title">Pre-Fill Known Info</span></div>
+        <div class="script">"Based on your call with Ethan: [X agents], Google Workspace, lead-gen focus — I've already pre-loaded all of that. I'm not going to waste your time re-asking what Ethan already captured."</div>
+        <div class="note">Read directly from your pre-call form. They should hear their own details reflected back — proof the team is one unit.</div>
+      </div>
+      <div class="opener-step">
+        <div><span class="step-badge">4</span><span class="step-title">Ask Only What You Don't Have</span></div>
+        <div class="script">"Here are the specific questions I do want to open up — [1–2 gaps from your pre-call form]."</div>
+        <div class="note">Max 2. If you need more, your pre-call form wasn't filled properly.</div>
+      </div>
+      <div class="opener-step full">
+        <div><span class="step-badge">5</span><span class="step-title">Open-Ended Close</span></div>
+        <div class="script">"Is there anything else I'm missing — or anything important for you and me to know to onboard your team successfully?"</div>
+        <div class="note">Ethan's line, AD endorsed it. Open-ended. Silence is fine. This is where you learn what the sales call didn't surface. Listen more than you talk.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── 03 INTRODUCTION ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">03</span></div>
+      <div><div class="s-title">INTRODUCTION & CONFIRMATION</div><div class="s-sub">Slide 1 · 2 Minutes</div></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="col-label">Talking Points</div>
+        <ul class="bb dot">
+          <li>Who you are + what you do at BrokerBlocks</li>
+          <li>Your #1 goal: Send their first hyper-personalized touchpoint TODAY</li>
+          <li>This call = operational walkthrough, not a sales pitch</li>
+        </ul>
+        <div style="margin-top:12px;" class="col-label">Opening Script</div>
+        <div class="script">"Hi, I'm Charles from Member Success. My goal today is to get your team's first hyper-personalized touchpoint sent before this call ends."</div>
+      </div>
+      <div class="card">
+        <div class="col-label">Quick Checklist</div>
+        <ul class="bb check">
+          <li>Confirm account activation verbally</li>
+          <li>Play or offer pre-roll video (AD/Ethan 60–90 sec)</li>
+        </ul>
+        <div style="margin-top:12px;" class="col-label">AD's Timing Rule</div>
+        <div class="note">Every intro = 2 min. Every slide = 30 seconds max. If you can't say it in 30 seconds, the slide has too much on it. Use the async video for platform walkthrough if the group is 4+ people — they'll discover it on their own.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── 04 LO/KICKOFF & MLS FORMS ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">04</span></div>
+      <div><div class="s-title">LO / KICKOFF CALL FORM &amp; MLS FORM</div><div class="s-sub">Fill before the call · Direct links below</div></div>
+    </div>
+    <div class="form-links">
+      <div class="form-link-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="form-icon">📋</div>
+          <div>
+            <div class="form-link-title">LO / Kickoff Call Form</div>
+            <div class="form-link-desc">Complete before every leadership onboarding or kickoff call</div>
+          </div>
+        </div>
+        <div class="note" style="margin-top:4px;">Covers lead profile, CRM details, team size, tech stack, and known objections from the sales call.</div>
+        <a class="form-link-btn pink" href="https://api.leadconnectorhq.com/widget/form/oSHm00vzO2CxqlMJLLU4?notrack=true" target="_blank">Open Form →</a>
+      </div>
+      <div class="form-link-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="form-icon">🏘️</div>
+          <div>
+            <div class="form-link-title">MLS Form</div>
+            <div class="form-link-desc">Submit MLS board details to complete the onboarding setup</div>
+          </div>
+        </div>
+        <div class="note" style="margin-top:4px;">Required after the leadership call. Triggers MLS integration and activates Neighbourhood Expert for the team.</div>
+        <a class="form-link-btn" href="https://api.leadconnectorhq.com/widget/form/Tzqc90YB4tLfIgVxXcui" target="_blank">Open Form →</a>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── 05 PLATFORM WALKTHROUGH (SLIDES) ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">05</span></div>
+      <div><div class="s-title">PLATFORM WALKTHROUGH (SLIDES)</div><div class="s-sub">Slides 3–9 · Core of the Call</div></div>
+    </div>
+    <div class="wt-grid">
+      <div class="wt-card">
+        <div class="wt-num">1</div>
+        <div class="wt-title">BrokerBlocks Overview</div>
+        <div class="wt-slide">Slides 3–4</div>
+        <ul class="bb">
+          <li>Your Pipeline on Autopilot — SEAL Framework</li>
+          <li>Agent pain points: slipping leads, wrong priorities, no responses</li>
+          <li>2–5 clicks a day is all it takes</li>
+        </ul>
+      </div>
+      <div class="wt-card">
+        <div class="wt-num">2</div>
+        <div class="wt-title">Agent Intel + CRM Integration</div>
+        <div class="wt-slide">Slides 5–6</div>
+        <ul class="bb">
+          <li>Dashboard: Hot/Warm/Cold leads, ranked by AI</li>
+          <li>Leia intel: contact cards, icebreakers, conversation starters</li>
+          <li>Lives inside FUB — no separate login</li>
+        </ul>
+      </div>
+      <div class="wt-card">
+        <div class="wt-num">3</div>
+        <div class="wt-title">AI Optimized Delivery</div>
+        <div class="wt-slide">Slide 7</div>
+        <ul class="bb">
+          <li>98% SMS open rate vs. email</li>
+          <li>3 min avg. SMS read time vs. 48 hrs email</li>
+          <li>5x higher SMS engagement</li>
+          <li>Group Text with Leia — one-time intro + GIF</li>
+        </ul>
+      </div>
+      <div class="wt-card">
+        <div class="wt-num">4</div>
+        <div class="wt-title">Latest Features</div>
+        <div class="wt-slide">Slide 8</div>
+        <ul class="bb">
+          <li>TopOfInbox™ — multiple shots on goal per touch</li>
+          <li>Neighbourhood Expert™ — LiveBy MLS + drip series</li>
+          <li>Predictive Analytics — real-time team performance</li>
+        </ul>
+      </div>
+      <div class="wt-card">
+        <div class="wt-num">5</div>
+        <div class="wt-title">Presentation Editor</div>
+        <div class="wt-slide">Feature</div>
+        <ul class="bb">
+          <li>Buyer &amp; seller decks — navigate and switch per contact</li>
+          <li>Slide 2 auto-generates per contact using Leia intel</li>
+          <li>Toggle, reorder, hide slides · Save via Home → Dashboard</li>
+          <li>Company-level edits push down to all agents</li>
+        </ul>
+      </div>
+      <div class="wt-card" style="border-color:var(--pink);">
+        <div class="wt-num">6</div>
+        <div class="wt-title" style="color:var(--pink);">Your First Win in 5 Clicks</div>
+        <div class="wt-slide" style="color:var(--pink);font-weight:700;">Slide 9 · LIVE DEMO</div>
+        <ul class="bb">
+          <li>Check SMS from BrokerBlocks</li>
+          <li>Open embedded app inside FUB sidebar</li>
+          <li>Pick hottest lead → approve hyper-personalized touchpoint → send</li>
+        </ul>
+        <div class="callout" style="margin-top:8px;">→ Do this live on the call</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── 06 SECRETS OF SUCCESS ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">06</span></div>
+      <div><div class="s-title">SECRETS OF SUCCESS</div><div class="s-sub">Slide 10 · From 150+ Onboarded Teams</div></div>
+    </div>
+    <div class="secret-row">
+      <div class="secret-num">1</div>
+      <div><strong>Enable Google Integration</strong><div class="note">Activates AI-enriched lead context for Leia</div></div>
+    </div>
+    <div class="secret-row">
+      <div class="secret-num">2</div>
+      <div><strong>Activate CRM Phone Number</strong><div class="note">Agents get SMS alerts the moment a lead is ready — no app required</div></div>
+    </div>
+    <div class="secret-row">
+      <div class="secret-num">3</div>
+      <div><strong>Send Your Team a Weekly Win</strong><div class="note">Share a success story, new feature, or stat — keeps agents engaged and consistent</div></div>
+    </div>
+    <div class="callout" style="margin-top:10px;">Frame it as: <em>"What we've seen from our best-performing teams."</em> Not prescriptive — consultative.</div>
+
+    <hr class="divider">
+
+    <!-- ── 07 WRAP-UP ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">07</span></div>
+      <div><div class="s-title">AGENT ROLLOUT PLANNING & WRAP-UP</div><div class="s-sub">Slide 11 · Final Housekeeping</div></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="col-label">Agent Rollout Planning</div>
+        <ul class="bb check" style="margin-top:6px;">
+          <li><strong>Schedule Agent Kickoff</strong> — Existing team meeting or dedicated call? Lock date before this call ends.</li>
+          <li><strong>Who Sends Agent Invites?</strong> — Confirm person and collect agent emails if available now.</li>
+          <li><strong>Collect Agent Emails</strong> — Gather now so invites go out today.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="col-label">Wrap-Up &amp; Next Steps</div>
+        <ul class="bb check" style="margin-top:6px;">
+          <li><strong>MLS Info Request</strong> — First follow-up email confirming MLS board details</li>
+          <li><strong>Onboarding Recap Email</strong> — Standard recap + Agent Kickoff scheduling link</li>
+          <li><strong>Direct to Support</strong> — help@brokerblocks.com for all questions</li>
+        </ul>
+        <div class="script" style="margin-top:12px;">"Folks, the first 45 days should feel like: <em>thank God I paid for this.</em> That's our goal."</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ── 08 30-DAY ACTIVATION FLOW ── -->
+    <div class="section-hdr">
+      <div><span class="s-num">08</span></div>
+      <div><div class="s-title">30-DAY ACTIVATION FLOW</div><div class="s-sub">10 Touchpoints · 30 Days · Min. 2x/Week · First Week Critical</div></div>
+    </div>
+
+    <div class="week-hdr w1">⚡ Week 1 · Critical — Every Other Day</div>
+    <div class="touch-table">
+      <div class="touch-row">
+        <div class="touch-day">Day 1</div><div class="touch-type type-email">Email</div>
+        <div class="touch-body"><div class="touch-title">Welcome + Google Calendar Connection</div><div class="touch-desc">Warm welcome referencing what Ethan shared. One CTA only: connect Google Calendar. Link to 90-second how-to video.</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 3</div><div class="touch-type type-text">Text</div>
+        <div class="touch-body"><div class="touch-title">Neighbourhood Expert Feature</div><div class="touch-desc">"Hey [Name] — the Neighbourhood Expert tool lets your agents send hyper-local touchpoints automatically. Best first move for any agent starting out."</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 5</div><div class="touch-type type-email">Email</div>
+        <div class="touch-body"><div class="touch-title">Top of Inbox Explainer</div><div class="touch-desc">Walk through Top of Inbox with a real example. Show what a hyper-personalized touchpoint looks like for a lead in the wild.</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 7</div><div class="touch-type type-call">Call</div>
+        <div class="touch-body"><div class="touch-title">End-of-Week-1 Check-In</div><div class="touch-desc">Quick 15-min call. Is Calendar connected? Has anyone used the platform? Identify power users early. Flag blockers before they compound.</div></div>
+      </div>
+    </div>
+
+    <div class="week-hdr w24">✓ Weeks 2–4 · Adoption &amp; Score</div>
+    <div class="touch-table">
+      <div class="touch-row">
+        <div class="touch-day">Day 8</div><div class="touch-type type-text">Text</div>
+        <div class="touch-body"><div class="touch-title">Quick Win Highlight</div><div class="touch-desc">"Has anyone sent their first hyper-personalized touchpoint yet? Reply back — I want to give them a shoutout in our community."</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 10</div><div class="touch-type type-text">Text</div>
+        <div class="touch-body"><div class="touch-title">Anything Blocking You?</div><div class="touch-desc">"Hey [Name] — wrapping up week 2. Any friction from the team so far? Happy to jump on a quick call before this compounds."</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 14</div><div class="touch-type type-text">Text</div>
+        <div class="touch-body"><div class="touch-title">Power User Spotlight</div><div class="touch-desc">"Tag your top 2–3 agents in the platform — we'll track their early wins and share them with the team to drive adoption."</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 18</div><div class="touch-type type-email">Email</div>
+        <div class="touch-body"><div class="touch-title">Best Practices for Leaders</div><div class="touch-desc">Leader playbook: how to frame BrokerBlocks in your next team huddle, which agents to activate first, how to drive accountability.</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 22</div><div class="touch-type type-email">Email</div>
+        <div class="touch-body"><div class="touch-title">Success Story + Reporting Preview</div><div class="touch-desc">Share 1 client story matching their profile. Show what their dashboard looks like at Day 30. Results compound — early adopters see it first.</div></div>
+      </div>
+      <div class="touch-row">
+        <div class="touch-day">Day 30</div><div class="touch-type type-call">Call</div>
+        <div class="touch-body"><div class="touch-title">Activation Score Call</div><div class="touch-desc">Review adoption signals. Score the group for vintage record. Identify power users. Flag at-risk agents and define next 30-day plan.</div></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    BrokerBlocks &nbsp;·&nbsp; Project Red Thread &nbsp;·&nbsp; Version 2.1 &nbsp;·&nbsp; Updated March 2026 &nbsp;·&nbsp; Member Success Playbook
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
